@@ -4,6 +4,14 @@ import random
 from flask import Flask, request
 from pymessenger.bot import Bot
 
+import nltk
+import numpy as np
+import pandas as pd
+import random
+import string
+import json
+import markovify
+
 app = Flask(__name__)
 ACCESS_TOKEN = 'EAAF0eiSwXmcBALGN3wE5GahuwPK2YUsFJDVs9WiOzTsvkp5HZCyjiiZAoLgpcN2hT2oRUZBMlROOxVasqeZBGsBgxlUvpyndOZChY7gzajYPf1IP2AvrDZBOZCfJ40Yi7aYGMkIvEsk73qOahL1mg7lHOkH6QeCBH8ZA4Dmu8gaddQZDZD'
 VERIFY_TOKEN = 'bwB6HMSZ8RPf3RiuDhi015UN96VX7gpkCpoCTCHdazEhR3o8bQuRHz0N+uGlKuYQEq/'
@@ -47,9 +55,10 @@ def verify_fb_token(token_sent):
 
 #chooses a random message to send to the user
 def get_message():
-    sample_responses = ["You are stunning!", "We're proud of you.", "Keep on being you!", "We're greatful to know you :)"]
+    return model.make_sentence_with_start("tu", tries=100)
+    # sample_responses = ["You are stunning!", "We're proud of you.", "Keep on being you!", "We're greatful to know you :)"]
     # return selected item to the user
-    return random.choice(sample_responses)
+    # return random.choice(sample_responses)
 
 #uses PyMessenger to send response to user
 def send_message(recipient_id, response):
@@ -59,3 +68,55 @@ def send_message(recipient_id, response):
 
 if __name__ == "__main__":
     app.run()
+
+    df = pd.read_csv('messenger.csv', engine='python', encoding='utf8')
+    df.iloc[0] = ['Temps', 'Expediteur', 'Message']
+    df.columns = df.iloc[0]
+    df = df.drop(df.index[0])
+    df['Message']=df['Message'].str.lower()# converts to lowercase
+
+    dfPerso = df[df.Expediteur == 'Arthur Marty']
+    dfPerso.dropna()
+
+    speeches =  list(dfPerso['Message'].str.split('\n', expand=True).stack())
+
+    print("Training model ...")
+
+    model = markovify.Text(speeches, state_size=2)
+
+    print("Model create")
+
+    # chain_dict = json.loads(
+    #     json.loads(model.to_json()).get('chain')
+    # )
+
+    # json.dump(chain_dict,
+    #     open('./cache/pos_model.json', 'w'),
+    #     indent=4,
+    #     sort_keys=True
+    # )
+
+
+    # import spacy
+
+    # # Load English tokenizer, tagger, parser, NER and word vectors
+    # nlp = spacy.load("en_core_web_sm")
+
+    # # Process whole documents
+    # text = ("When Sebastian Thrun started working on self-driving cars at "
+    #         "Google in 2007, few people outside of the company took him "
+    #         "seriously. “I can tell you very senior CEOs of major American "
+    #         "car companies would shake my hand and turn away because I wasn’t "
+    #         "worth talking to,” said Thrun, in an interview with Recode earlier "
+    #         "this week.")
+    # doc = nlp(text)
+
+    # # Analyze syntax
+    # print("Noun phrases:", [chunk.text for chunk in doc.noun_chunks])
+    # print("Verbs:", [token.lemma_ for token in doc if token.pos_ == "VERB"])
+
+    # # Find named entities, phrases and concepts
+    # for entity in doc.ents:
+    #     print(entity.text, entity.label_)
+
+    # print(model.make_sentence_with_start("tu", tries=100))
