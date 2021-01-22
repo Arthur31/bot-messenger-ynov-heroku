@@ -81,7 +81,7 @@ def get_message():
         return model.make_sentence_with_start("tu", tries=100)
     except AttributeError:
         pass
-        print(identifier)
+        print('mamaning errors model')
         # trainModel()
         return "Mon model n'est pas bien entrainé, je le reentraine et je reviens"
     
