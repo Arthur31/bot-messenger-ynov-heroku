@@ -12,31 +12,31 @@ import string
 import json
 import markovify
 
-def trainModel():
-    print("Loading datas ...")
-    df = pd.read_csv('messages.csv', engine='python', encoding='utf8')
-    df.iloc[0] = ['Temps', 'Expediteur', 'Message']
-    df.columns = df.iloc[0]
-    df = df.drop(df.index[0])
-    df['Message']=df['Message'].str.lower()# converts to lowercase
+# def trainModel():
+print("Loading datas ...")
+df = pd.read_csv('messages.csv', engine='python', encoding='utf8')
+df.iloc[0] = ['Temps', 'Expediteur', 'Message']
+df.columns = df.iloc[0]
+df = df.drop(df.index[0])
+df['Message']=df['Message'].str.lower()# converts to lowercase
 
-    dfPerso = df[df.Expediteur == 'Arthur Marty']
-    dfPerso.dropna()
+dfPerso = df[df.Expediteur == 'Arthur Marty']
+dfPerso.dropna()
 
-    speeches =  list(dfPerso['Message'].str.split('\n', expand=True).stack())
+speeches =  list(dfPerso['Message'].str.split('\n', expand=True).stack())
 
-    print("Training model ...")
+print("Training model ...")
 
-    model = markovify.Text(speeches, state_size=2)
+model = markovify.Text(speeches, state_size=2)
 
-    print("Model create")
+print("Model create")
 
 app = Flask(__name__)
 ACCESS_TOKEN = 'EAAF0eiSwXmcBALGN3wE5GahuwPK2YUsFJDVs9WiOzTsvkp5HZCyjiiZAoLgpcN2hT2oRUZBMlROOxVasqeZBGsBgxlUvpyndOZChY7gzajYPf1IP2AvrDZBOZCfJ40Yi7aYGMkIvEsk73qOahL1mg7lHOkH6QeCBH8ZA4Dmu8gaddQZDZD'
 VERIFY_TOKEN = 'bwB6HMSZ8RPf3RiuDhi015UN96VX7gpkCpoCTCHdazEhR3o8bQuRHz0N+uGlKuYQEq/'
 bot = Bot(ACCESS_TOKEN)
 
-model = {}
+# model = {}
 # trainModel()
 
 #We will receive messages that Facebook sends our bot at this endpoint 
@@ -97,7 +97,7 @@ def send_message(recipient_id, response):
     return "success"
 
 if __name__ == "__main__":
-    trainModel()
+    # trainModel()
     app.run()
 
 
