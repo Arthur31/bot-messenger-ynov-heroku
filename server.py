@@ -17,6 +17,8 @@ ACCESS_TOKEN = 'EAAF0eiSwXmcBALGN3wE5GahuwPK2YUsFJDVs9WiOzTsvkp5HZCyjiiZAoLgpcN2
 VERIFY_TOKEN = 'bwB6HMSZ8RPf3RiuDhi015UN96VX7gpkCpoCTCHdazEhR3o8bQuRHz0N+uGlKuYQEq/'
 bot = Bot(ACCESS_TOKEN)
 
+model = null
+
 #We will receive messages that Facebook sends our bot at this endpoint 
 @app.route("/", methods=['GET', 'POST'])
 def receive_message():
@@ -55,7 +57,12 @@ def verify_fb_token(token_sent):
 
 #chooses a random message to send to the user
 def get_message():
-    return model.make_sentence_with_start("tu", tries=100)
+    if (model != null) {
+        return model.make_sentence_with_start("tu", tries=100)
+    }else{
+        trainModel()
+        return "Mon model n'est pas bien entrainé, je le reentraine et je reviens"
+    }
     # sample_responses = ["You are stunning!", "We're proud of you.", "Keep on being you!", "We're greatful to know you :)"]
     # return selected item to the user
     # return random.choice(sample_responses)
@@ -68,7 +75,12 @@ def send_message(recipient_id, response):
 
 if __name__ == "__main__":
     app.run()
+    trainModel()
 
+
+
+
+def trainModel():    
     df = pd.read_csv('messenger.csv', engine='python', encoding='utf8')
     df.iloc[0] = ['Temps', 'Expediteur', 'Message']
     df.columns = df.iloc[0]
