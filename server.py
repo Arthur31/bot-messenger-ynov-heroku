@@ -13,7 +13,7 @@ import json
 import markovify
 
 
-model = {}
+model = ''
 
 
 def trainModel():
@@ -43,6 +43,10 @@ bot = Bot(ACCESS_TOKEN)
 
 
 # trainModel()
+@app.route("/model", methods=['GET'])
+def makeModel():
+    trainModel()
+    return "Model Done"
 
 #We will receive messages that Facebook sends our bot at this endpoint 
 @app.route("/", methods=['GET', 'POST'])
@@ -102,7 +106,7 @@ def send_message(recipient_id, response):
     return "success"
 
 if __name__ == "__main__":
-    trainModel()
+    # trainModel()
     app.run()
 
 
