@@ -82,7 +82,7 @@ def get_message():
     except AttributeError:
         pass
         print('managing errors model')
-        trainModel()
+        # trainModel()
         return "Mon model n'est pas bien entrainé, je le reentraine et je reviens"
     
     
