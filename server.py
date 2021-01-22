@@ -12,7 +12,8 @@ import string
 import json
 import markovify
 
-def trainModel():    
+def trainModel():
+    print("Loading datas ...")
     df = pd.read_csv('messenger.csv', engine='python', encoding='utf8')
     df.iloc[0] = ['Temps', 'Expediteur', 'Message']
     df.columns = df.iloc[0]
@@ -80,8 +81,8 @@ def get_message():
         return model.make_sentence_with_start("tu", tries=100)
     except expression as identifier:
         pass
-        print(expression)
-        trainModel()
+        print(identifier)
+        # trainModel()
         return "Mon model n'est pas bien entrainé, je le reentraine et je reviens"
     
     
