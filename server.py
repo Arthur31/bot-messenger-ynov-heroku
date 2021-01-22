@@ -42,7 +42,7 @@ VERIFY_TOKEN = 'bwB6HMSZ8RPf3RiuDhi015UN96VX7gpkCpoCTCHdazEhR3o8bQuRHz0N+uGlKuYQ
 bot = Bot(ACCESS_TOKEN)
 
 
-# trainModel()
+trainModel()
 
 #We will receive messages that Facebook sends our bot at this endpoint 
 @app.route("/", methods=['GET', 'POST'])
@@ -102,7 +102,7 @@ def send_message(recipient_id, response):
     return "success"
 
 if __name__ == "__main__":
-    trainModel()
+    # trainModel()
     app.run()
 
 
