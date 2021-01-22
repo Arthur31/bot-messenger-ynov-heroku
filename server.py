@@ -57,11 +57,14 @@ def verify_fb_token(token_sent):
 
 #chooses a random message to send to the user
 def get_message():
-    if model != null:
+    try:
         return model.make_sentence_with_start("tu", tries=100)
-    else:
+    except expression as identifier:
+        pass
+        print(expression)
         trainModel()
         return "Mon model n'est pas bien entrainé, je le reentraine et je reviens"
+    
     
     # sample_responses = ["You are stunning!", "We're proud of you.", "Keep on being you!", "We're greatful to know you :)"]
     # return selected item to the user
