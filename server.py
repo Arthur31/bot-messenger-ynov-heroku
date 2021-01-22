@@ -14,7 +14,7 @@ import markovify
 
 def trainModel():
     print("Loading datas ...")
-    df = pd.read_csv('messenger.csv', engine='python', encoding='utf8')
+    df = pd.read_csv('messages.csv', engine='python', encoding='utf8')
     df.iloc[0] = ['Temps', 'Expediteur', 'Message']
     df.columns = df.iloc[0]
     df = df.drop(df.index[0])
