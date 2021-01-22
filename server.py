@@ -79,7 +79,7 @@ def verify_fb_token(token_sent):
 def get_message():
     try:
         return model.make_sentence_with_start("tu", tries=100)
-    except expression as identifier:
+    except AttributeError:
         pass
         print(identifier)
         # trainModel()
