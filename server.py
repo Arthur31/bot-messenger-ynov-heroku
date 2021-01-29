@@ -15,6 +15,7 @@ import markovify
 
 model = ''
 
+EXPEDITEUR_NAME = 'Arthur Marty'
 
 def trainModel():
     global model
@@ -25,7 +26,7 @@ def trainModel():
     df = df.drop(df.index[0])
     df['Message']=df['Message'].str.lower()# converts to lowercase
 
-    dfPerso = df[df.Expediteur == 'Arthur Marty']
+    dfPerso = df[df.Expediteur == EXPEDITEUR_NAME]
     dfPerso.dropna()
 
     speeches =  list(dfPerso['Message'].str.split('\n', expand=True).stack())
@@ -94,10 +95,6 @@ def get_message():
         # trainModel()
         return "Mon model n'est pas bien entrainé, je le reentraine et je reviens"
     
-    
-    # sample_responses = ["You are stunning!", "We're proud of you.", "Keep on being you!", "We're greatful to know you :)"]
-    # return selected item to the user
-    # return random.choice(sample_responses)
 
 #uses PyMessenger to send response to user
 def send_message(recipient_id, response):
@@ -108,43 +105,3 @@ def send_message(recipient_id, response):
 if __name__ == "__main__":
     # trainModel()
     app.run()
-
-
-
-
-
-
-    # chain_dict = json.loads(
-    #     json.loads(model.to_json()).get('chain')
-    # )
-
-    # json.dump(chain_dict,
-    #     open('./cache/pos_model.json', 'w'),
-    #     indent=4,
-    #     sort_keys=True
-    # )
-
-
-    # import spacy
-
-    # # Load English tokenizer, tagger, parser, NER and word vectors
-    # nlp = spacy.load("en_core_web_sm")
-
-    # # Process whole documents
-    # text = ("When Sebastian Thrun started working on self-driving cars at "
-    #         "Google in 2007, few people outside of the company took him "
-    #         "seriously. “I can tell you very senior CEOs of major American "
-    #         "car companies would shake my hand and turn away because I wasn’t "
-    #         "worth talking to,” said Thrun, in an interview with Recode earlier "
-    #         "this week.")
-    # doc = nlp(text)
-
-    # # Analyze syntax
-    # print("Noun phrases:", [chunk.text for chunk in doc.noun_chunks])
-    # print("Verbs:", [token.lemma_ for token in doc if token.pos_ == "VERB"])
-
-    # # Find named entities, phrases and concepts
-    # for entity in doc.ents:
-    #     print(entity.text, entity.label_)
-
-    # print(model.make_sentence_with_start("tu", tries=100))
